@@ -326,19 +326,5 @@ docker run -d -p 5000:5000 --name chatbot chatbot-app
 
 This project is licensed under the MIT License. See LICENSE file for details.
 
-## 👥 Author
-
-**ChatBot Development Team**
-- GitHub: [your-github-username]
-- Email: [your-email]
-
-## 📞 Support
-
-For questions or issues:
-1. Check the troubleshooting section
-2. Create an issue on GitHub
-3. Contact the development team
-
----
 
 **Made with ❤️ and Python**
