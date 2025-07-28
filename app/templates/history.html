@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History - ChatBot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .navigation {
+            margin-top: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            color: white;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .conversation-item {
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .conversation-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .conversation-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .conversation-content {
+            padding: 1rem;
+        }
+
+        .user-message {
+            background: #e3f2fd;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #2196f3;
+        }
+
+        .bot-message {
+            background: #f1f8e9;
+            padding: 0.8rem;
+            border-radius: 10px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .message-label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .no-conversations {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .stats h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Chat History</h1>
+            <p>Review your previous conversations with ChatBot</p>
+            <div class="navigation">
+                <a href="/" class="nav-link">← Back to Chat</a>
+                <a href="/api/conversations" class="nav-link">JSON Export</a>
+            </div>
+        </div>
+
+        <div class="content">
+            {% if conversations %}
+                <div class="stats">
+                    <h3>Total Conversations: {{ conversations|length }}</h3>
+                    <p>Showing your most recent chat interactions</p>
+                </div>
+
+                {% for conversation in conversations %}
+                <div class="conversation-item">
+                    <div class="conversation-header">
+                        <strong>Conversation #{{ conversation.id }}</strong> - 
+                        {{ conversation.timestamp.strftime('%Y-%m-%d at %H:%M:%S') }}
+                    </div>
+                    <div class="conversation-content">
+                        <div class="user-message">
+                            <div class="message-label">👤 You:</div>
+                            {{ conversation.user_input }}
+                        </div>
+                        <div class="bot-message">
+                            <div class="message-label">🤖 ChatBot:</div>
+                            {{ conversation.bot_response }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-conversations">
+                    <h3>No conversations yet</h3>
+                    <p>Start chatting with the bot to see your conversation history here!</p>
+                    <a href="/" class="nav-link" style="display: inline-block; margin-top: 1rem;">Start Chatting</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
